@@ -25,7 +25,7 @@ Usuario GitHub:
 
 /**
  *Este módulo inicializa una estructura de datos con ejemplos de juegos y retorna la colección de juegos
- *@param return array
+ *@return array
  */
 function cargarJuegos(){
     // array $coleccionJuegos
@@ -45,7 +45,7 @@ function cargarJuegos(){
 
 /**
  *Este módulo muestra en pantalla el menú de opciones, solicita al usuario que elija una opción, si es válida retorna la opción y sino repite hasta que la opción válida
- *@param return int	
+ *@return int	
  */
 function seleccionarOpcion(){
     do {
