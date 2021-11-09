@@ -30,16 +30,16 @@ Usuario GitHub:
 function cargarJuegos(){
     // array $coleccionJuegos
     $coleccionJuegos = [];
-    $coleccionJuegos[0] = ["jugadorCruz"=> "Arturo". "jugadorCirculo" => "Rodrigo". "puntosCruz"=> 4. "puntosCirculo" => 0];
-    $coleccionJuegos[1] = ["jugadorCruz"=> "Marcelo". "jugadorCirculo" => "Maria". "puntosCruz"=> 0. "puntosCirculo" => 3];
-    $coleccionJuegos[2] = ["jugadorCruz"=> "Roberto". "jugadorCirculo" => "Camila". "puntosCruz"=> 1. "puntosCirculo" => 1];
-    $coleccionJuegos[3] = ["jugadorCruz" => "Rodrigo". "jugadorCirculo" => "Marcelo". "puntosCruz" => 2. "puntosCirculo" => 0];
-    $coleccionJuegos[4] = ["jugadorCruz" => "Camila". "jugadorCirculo" => "Arturo". "puntosCruz" => 0. "puntosCirculo" => 5];
-    $coleccionJuegos[5] = ["jugadorCruz"=> "Maria". "jugadorCirculo" => "Cecilia". "puntosCruz"=> 1. "puntosCirculo" => 1];
-    $coleccionJuegos[6] = ["jugadorCruz"=> "Aldana". "jugadorCirculo" => " Daiana". "puntosCruz" => 0. "puntosCirculo" => 2];
-    $coleccionJuegos[7] = ["jugadorCruz" => "Cecilia". "jugadorCirculo" => "Aldana". "puntosCruz" => 4. "puntosCirculo" => 0];
-    $coleccionJuegos[8] = ["jugadorCruz"=> "Daiana". "jugadorCirculo" => "Marcelo". "puntosCruz"=> 1. "puntosCirculo" => 1];
-    $coleccionJuegos[9] = ["jugadorCruz" => "Rodrigo". "jugadorCirculo" => "Arturo". "puntosCruz" => 0. "puntosCirculo" => 2];
+    $coleccionJuegos[0] = ["jugadorCruz"=> "Arturo", "jugadorCirculo" => "Rodrigo", "puntosCruz"=> 4, "puntosCirculo" => 0];
+    $coleccionJuegos[1] = ["jugadorCruz"=> "Marcelo", "jugadorCirculo" => "Maria", "puntosCruz"=> 0, "puntosCirculo" => 3];
+    $coleccionJuegos[2] = ["jugadorCruz"=> "Roberto", "jugadorCirculo" => "Camila", "puntosCruz"=> 1, "puntosCirculo" => 1];
+    $coleccionJuegos[3] = ["jugadorCruz" => "Rodrigo", "jugadorCirculo" => "Marcelo", "puntosCruz" => 2, "puntosCirculo" => 0];
+    $coleccionJuegos[4] = ["jugadorCruz" => "Camila", "jugadorCirculo" => "Arturo", "puntosCruz" => 0, "puntosCirculo" => 5];
+    $coleccionJuegos[5] = ["jugadorCruz"=> "Maria", "jugadorCirculo" => "Cecilia", "puntosCruz"=> 1, "puntosCirculo" => 1];
+    $coleccionJuegos[6] = ["jugadorCruz"=> "Aldana", "jugadorCirculo" => " Daiana", "puntosCruz" => 0, "puntosCirculo" => 2];
+    $coleccionJuegos[7] = ["jugadorCruz" => "Cecilia", "jugadorCirculo" => "Aldana", "puntosCruz" => 4, "puntosCirculo" => 0];
+    $coleccionJuegos[8] = ["jugadorCruz"=> "Daiana", "jugadorCirculo" => "Marcelo", "puntosCruz"=> 1, "puntosCirculo" => 1];
+    $coleccionJuegos[9] = ["jugadorCruz" => "Rodrigo", "jugadorCirculo" => "Arturo", "puntosCruz" => 0, "puntosCirculo" => 2];
     return($coleccionJuegos);
 }
 
@@ -66,12 +66,13 @@ function seleccionarOpcion(){
 /**
  * Este módulo recibe un número de juego como parámetro y si el juego existe. imprime en pantalla los datos del mismo. Si no existe. repite el proceso hasta que se ingrese un número válido.
  * @param int $nroJuego
+ * @param array $coleccionJuegos
  */
 function mostrarJuego ($nroJuego){
     echo "**********************";
-    echo "Juego TATETI: ". $nroJuego. " (" . $coleccionJuegos["resultado"] . ")
-    echo ("Jugador X: " . $coleccionJuegos["jugadorCruz"]. "obtuvo " . $coleccionJuegos["puntosCruz"] . " puntos";
-    echo ("Jugador O: " . $coleccionJuegos["jugadorCirculo"]. "obtuvo " . $coleccionJuegos["puntosCirculo"] . " puntos";
+    echo "Juego TATETI: ". $nroJuego. " (" . $coleccionJuegos["resultado"] .  ")" . "\n";
+    echo "Jugador X: " . $coleccionJuegos["jugadorCruz"]. "obtuvo " . $coleccionJuegos["puntosCruz"] . " puntos \n";
+    echo "Jugador O: " . $coleccionJuegos["jugadorCirculo"]. "obtuvo " . $coleccionJuegos["puntosCirculo"] . " puntos \n";
     echo "**********************";
 }
 
