@@ -24,6 +24,7 @@ Usuario GitHub:
 /**************************************/
 
 /**
+ * Función 1
  *Este módulo inicializa una estructura de datos con ejemplos de juegos y retorna la colección de juegos
  *@return array
  */
@@ -44,6 +45,7 @@ function cargarJuegos(){
 }
 
 /**
+ * Función 2
  *Este módulo muestra en pantalla el menú de opciones. solicita al usuario que elija una opción. si es válida retorna la opción y sino repite hasta que la opción válida
  *@return int	
  */
@@ -64,18 +66,44 @@ function seleccionarOpcion(){
 }
 
 /**
- * Este módulo recibe un número de juego como parámetro y si el juego existe. imprime en pantalla los datos del mismo. Si no existe. repite el proceso hasta que se ingrese un número válido.
+ * Función 4
+ * Este módulo recibe un número de juego como parámetro e imprime en pantalla los datos del mismo. 
  * @param int $nroJuego
- * @param array $coleccionJuegos
  */
 function mostrarJuego ($nroJuego){
+    /* string $resultado */
+    /* array $juegosCargados */
+    $juegosCargados = cargarJuegos();
+    if ($juegosCargados[$nroJuego]["puntosCruz"] > $juegosCargados[$nroJuego]["puntosCirculo"]){
+        $resultado = "ganó X";
+    }else if ($juegosCargados[$nroJuego]["puntosCruz"] < $juegosCargados[$nroJuego]["puntosCirculo"]){
+        $resultado = "ganó O";
+    }else{
+        $resultado = "empate";
+    }
     echo "**********************";
-    echo "Juego TATETI: ". $nroJuego. " (" . $coleccionJuegos["resultado"] .  ")" . "\n";
-    echo "Jugador X: " . $coleccionJuegos["jugadorCruz"]. "obtuvo " . $coleccionJuegos["puntosCruz"] . " puntos \n";
-    echo "Jugador O: " . $coleccionJuegos["jugadorCirculo"]. "obtuvo " . $coleccionJuegos["puntosCirculo"] . " puntos \n";
+    echo "Juego TATETI: ". $nroJuego . "(" . $resultado . ") \n";
+    echo "Jugador X: " . $juegosCargados[$nroJuego]["jugadorCruz"]. "obtuvo " . $juegosCargados[$nroJuego]["puntosCruz"] . " puntos \n";
+    echo "Jugador O: " . $juegosCargados[$nroJuego]["jugadorCirculo"]. "obtuvo " . $juegosCargados[$nroJuego]["puntosCirculo"] . " puntos \n";
     echo "**********************";
 }
 
+/**
+ * Función 5
+ * Este módulo recibe una colección y un juego y lo agrega al array.
+ * @param array $coleccion
+ * @param string $nombreCruz, $nombreCirculo
+ * @param int $puntajeX, $puntajeO
+ * @param int $juego
+ * @return array
+ */
+function agregarJuego ($coleccion, $juego, $nombreCruz, $nombreCirculo, $puntajeX, $puntajeO){
+    $coleccion[$juego] = ["jugadorCruz"=> $nombreCruz, "jugadorCirculo" => $nombreCirculo, "puntosCruz"=> $puntajeX, "puntosCirculo" => $puntajeO];
+    return ($coleccion);
+}
+
+
+    
 
 
 /**************************************/
@@ -83,31 +111,33 @@ function mostrarJuego ($nroJuego){
 /**************************************/
 
 //Declaración de variables:
-
-
+    /* array $juego */
+    /* int $numeroJuego */
 //Inicialización de variables:
-
+    cargarJuegos();
 
 //Proceso:
 
-$juego = jugar();
-//print_r($juego);
-//imprimirResultado($juego);
 
 
 
-/*
-do {
-    $opcion = ...;
+/* do {
+    $opcion = seleccionarOpcion();
 
     
     switch ($opcion) {
         case 1: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
+            //Jugar al TATETI
+            $juego = jugar();
+            //print_r($juego);
+            //imprimirResultado($juego);
 
             break;
         case 2: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
+            //Mostrar un juego
+            echo "Ingrese un número de juego: ";       
+            $numeroJuego = solicitarNumeroEntre(1,count($colecccionJuegos));            
+            imprimirResultado($juego);
 
             break;
         case 3: 
@@ -117,5 +147,4 @@ do {
         
             //...
     }
-} while ($opcion != X);
-*/
+} while ($opcion != X); */
