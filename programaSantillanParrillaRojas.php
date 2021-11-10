@@ -50,6 +50,7 @@ function cargarJuegos(){
  *@return int	
  */
 function seleccionarOpcion(){
+    // int $opValida
     do {
         echo "Menú de opciones: \n";
 		echo "   1)   Jugar al tateti \n";
@@ -60,9 +61,9 @@ function seleccionarOpcion(){
 		echo "   6)   Mostrar listado de juegos Ordenado por jugador O \n";
 		echo "   7)   Salir \n";
 		echo "Elija una opción del menú: ";
-		$opcion = trim(fgets(STDIN));
-} while ($opcion < 1 || $opcion > 7);
-	return($opcion);
+		$opValida = trim(fgets(STDIN));
+} while ($opValida < 1 || $opValida > 7);
+	return($opValida);
 }
 
 /**
@@ -81,11 +82,11 @@ function mostrarJuego ($nroJuego){
     }else{
         $resultado = "empate";
     }
-    echo "**********************";
+    echo "******************************************";
     echo "Juego TATETI: ". $nroJuego . "(" . $resultado . ") \n";
     echo "Jugador X: " . $juegosCargados[$nroJuego]["jugadorCruz"]. "obtuvo " . $juegosCargados[$nroJuego]["puntosCruz"] . " puntos \n";
     echo "Jugador O: " . $juegosCargados[$nroJuego]["jugadorCirculo"]. "obtuvo " . $juegosCargados[$nroJuego]["puntosCirculo"] . " puntos \n";
-    echo "**********************";
+    echo "******************************************";
 }
 
 /**
@@ -111,33 +112,37 @@ function agregarJuego ($coleccion, $juego, $nombreCruz, $nombreCirculo, $puntaje
 /**************************************/
 
 //Declaración de variables:
-    /* array $juego */
+    /* array $datosJuegoNuevo , $juegosTotales */
     /* int $numeroJuego */
 //Inicialización de variables:
-    cargarJuegos();
+    $juegosTotales = cargarJuegos();
+
 
 //Proceso:
 
 
 
 
-/* do {
+ do {
     $opcion = seleccionarOpcion();
 
     
-    switch ($opcion) {
+    switch ($opcion) { //Corresponde a una estructura de control Alternativa.
         case 1: 
             //Jugar al TATETI
-            $juego = jugar();
-            //print_r($juego);
-            //imprimirResultado($juego);
+            $datosJuegoNuevo = jugar();
+            imprimirResultado($datosJuego);
+            $juegosTotales = agregarJuego($juegosTotales,count($juegosTotales),$datosJuego["jugadorCruz"],$datosJuego["jugadorCirculo"],$datosJuego["puntosCruz"],$datosJuego["puntosCirculo"]);
+            
+            print_r($juegosTotales);
+            
 
             break;
         case 2: 
             //Mostrar un juego
             echo "Ingrese un número de juego: ";       
-            $numeroJuego = solicitarNumeroEntre(1,count($colecccionJuegos));            
-            imprimirResultado($juego);
+            $numeroJuego = solicitarNumeroEntre(1,count($juegosTotales));            
+            mostrarJuego($numeroJuego);
 
             break;
         case 3: 
@@ -147,4 +152,4 @@ function agregarJuego ($coleccion, $juego, $nombreCruz, $nombreCirculo, $puntaje
         
             //...
     }
-} while ($opcion != X); */
+} while ($opcion != 7);
