@@ -110,28 +110,26 @@ function agregarJuego ($coleccion, $juego, $nombreCruz, $nombreCirculo, $puntaje
  * @param array $coleccionBuscado
  * @return int
  */
-function primerGanado ($nombreBuscado, $colecionBuscado) {
+function primerGanado ($nombreBuscado, $coleccionBuscado) {
     /* int $n, $i, $primerJuegoGanado */
     /* boolean $gano, $corte */
-    $coleccionBuscado = cargarJuegos();
+    
     $n = count($coleccionBuscado);
     $i = 0;
-    $gano = false;
     $corte = true;
-    $primerJuegoGanado = 0;
+    $primerJuegoGanado = -1;
     while ($i < $n && $corte){
         if ($coleccionBuscado[$i]["jugadorCruz"] == $nombreBuscado){
             if ($coleccionBuscado[$i]["puntosCruz"] > $coleccionBuscado[$i]["puntosCirculo"]){
-                $gano = true;
                 $primerJuegoGanado = $i;
                 $corte = false;
             }
             $i = $i + 1;
         }                
     }
-    if ($gano == false){    
-        echo "El jugador: " . $nombreBuscado . "no ganó ningún juego.";
-    }        
+    return $primerJuegoGanado;    
+        
+            
 }
     
 
