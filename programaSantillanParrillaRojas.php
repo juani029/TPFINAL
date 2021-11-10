@@ -11,9 +11,8 @@ Usuario GitHub: juani029
 */
 /* Rojas. Luciano Agustin. Legajo: 3585 . Carrera: Tecnicatura Universitaria en Desarrollo Web. mail: luciano.rojas@est.fi.uncoma.edu.ar  
 Usuario GitHub: AgusDevelop
-*/
-/* . Legajo: . Carrera: Tecnicatura Universitaria en Desarrollo Web. mail:  
-Usuario GitHub: 
+/* Parrilla . Emiliano Dario. Legajo: 3024 . Carrera: Tecnicatura Universitaria en Desarrollo Web. mail: emiliano.parrilla@est.fi.uncoma.edu.ar 
+Usuario GitHub: emilianoparrilla
 */
 
 
@@ -103,7 +102,37 @@ function agregarJuego ($coleccion, $juego, $nombreCruz, $nombreCirculo, $puntaje
     return ($coleccion);
 }
 
-
+/**
+ * Función 6
+ * Este módulo recibe como parámetros la colección de juegos y el nombre de un jugador, y retorna, 
+ * si existe, su primer juego ganado.
+ * @param string $nombreBuscado
+ * @param array $coleccionBuscado
+ * @return int
+ */
+function primerGanado ($nombreBuscado, $colecionBuscado) {
+    /* int $n, $i, $primerJuegoGanado */
+    /* boolean $gano, $corte */
+    $coleccionBuscado = cargarJuegos();
+    $n = count($coleccionBuscado);
+    $i = 0;
+    $gano = false;
+    $corte = true;
+    $primerJuegoGanado = 0;
+    while ($i < $n && $corte){
+        if ($coleccionBuscado[$i]["jugadorCruz"] == $nombreBuscado){
+            if ($coleccionBuscado[$i]["puntosCruz"] > $coleccionBuscado[$i]["puntosCirculo"]){
+                $gano = true;
+                $primerJuegoGanado = $i;
+                $corte = false;
+            }
+            $i = $i + 1;
+        }                
+    }
+    if ($gano == false){    
+        echo "El jugador: " . $nombreBuscado . "no ganó ningún juego.";
+    }        
+}
     
 
 
