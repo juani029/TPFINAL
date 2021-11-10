@@ -9,8 +9,8 @@ include_once("tateti.php");
 /* Santillan. Juan Ignacio. Legajo: 2691. Carrera: Tecnicatura Universitaria en Desarrollo Web. mail: juan.santillan@est.fi.uncoma.edu.ar 
 Usuario GitHub: juani029
 */
-/* . Legajo: . Carrera: Tecnicatura Universitaria en Desarrollo Web. mail:  
-Usuario GitHub: 
+/* Rojas. Luciano Agustin. Legajo: 3585 . Carrera: Tecnicatura Universitaria en Desarrollo Web. mail: luciano.rojas@est.fi.uncoma.edu.ar  
+Usuario GitHub: AgusDevelop
 */
 /* . Legajo: . Carrera: Tecnicatura Universitaria en Desarrollo Web. mail:  
 Usuario GitHub: 
