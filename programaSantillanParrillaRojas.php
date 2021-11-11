@@ -82,7 +82,7 @@ function mostrarJuego ($nroJuego){
         $resultado = "empate";
     }
     echo "******************************************";
-    echo "Juego TATETI: ". $nroJuego . "(" . $resultado . ") \n";
+    echo "Juego TATETI: ". $nroJuego + 1 . "(" . $resultado . ") \n";
     echo "Jugador X: " . $juegosCargados[$nroJuego]["jugadorCruz"]. "obtuvo " . $juegosCargados[$nroJuego]["puntosCruz"] . " puntos \n";
     echo "Jugador O: " . $juegosCargados[$nroJuego]["jugadorCirculo"]. "obtuvo " . $juegosCargados[$nroJuego]["puntosCirculo"] . " puntos \n";
     echo "******************************************";
@@ -123,9 +123,18 @@ function primerGanado ($nombreBuscado, $coleccionBuscado) {
             if ($coleccionBuscado[$i]["puntosCruz"] > $coleccionBuscado[$i]["puntosCirculo"]){
                 $primerJuegoGanado = $i;
                 $corte = false;
+          
             }
-            $i = $i + 1;
-        }                
+            
+        }elseif ($coleccionBuscado[$i]["jugadorCirculo"] == $nombreBuscado){
+            if ($coleccionBuscado[$i]["puntosCirculo"] > $coleccionBuscado[$i]["puntosCruz"]){
+                $primerJuegoGanado = $i;
+                $corte = false;
+          
+            }
+            
+        }    
+        $i = $i + 1;             
     }
     return $primerJuegoGanado;    
         
@@ -169,7 +178,7 @@ function primerGanado ($nombreBuscado, $coleccionBuscado) {
             //Mostrar un juego
             echo "Ingrese un número de juego: ";       
             $numeroJuego = solicitarNumeroEntre(1,count($juegosTotales));            
-            mostrarJuego($numeroJuego);
+            mostrarJuego($numeroJuego - 1);
 
             break;
         case 3: 
