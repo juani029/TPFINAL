@@ -73,7 +73,7 @@ function seleccionarOpcion(){
 function mostrarJuego ($nroJuego){
     /* string $resultado */
     /* array $juegosCargados */
-    $juegosCargados = cargarJuegos();
+    $juegosCargados = cargarJuegos();// REVISAR porque solamente le va a dar la $coleccionJuegoJugados
     if ($juegosCargados[$nroJuego]["puntosCruz"] > $juegosCargados[$nroJuego]["puntosCirculo"]){
         $resultado = "ganó X";
     }else if ($juegosCargados[$nroJuego]["puntosCruz"] < $juegosCargados[$nroJuego]["puntosCirculo"]){
@@ -136,8 +136,65 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
     }
     return $primerJuegoGanado;                 
 }
-    
-
+    /**
+     *Funcion 8
+     *Este módulo solicita al usuario un símbolo y valida que sea (X o O) y retorna el mismo en mayúsculas
+     *@return string
+     */
+   
+    function validarSimbolo(){
+        // string $simbolo
+        do {
+            echo "Ingrese un símbolo (X o O):";
+            $simbolo = strtoupper(trim(fgets(STDIN)));
+        } while ($simbolo <> "X" || $simbolo <> "O");
+	    return $simbolo;
+    }
+	
+     /**
+     *Funcion 9
+     *Este módulo recorre la colección y contabiliza la cantidad de juegos ganados total
+     *@param array $coleccion
+     *@return int
+     */	
+    function contarJuegosGanados($coleccion){
+        // int $i, $n, $cantJuegosGanados 
+        $n = count($coleccion);
+        $cantJuegosGanados = 0;
+        for ($i=0; $i < $n ; $i++) { 
+            if ($coleccion[$i]["puntosCruz"] <> $coleccion[$i]["puntosCirculo"]) {
+                $cantJuegosGanados = $cantJuegosGanados + 1;
+            }
+        }
+        return $cantJuegosGanados;
+    }
+	
+    /**
+     *Funcion 10
+     *Este módulo dada una coleccion y un símbolo, retorna la cantidad de juegos ganados por el símbolo ingresado
+     *@param array $arregloJuegos
+     *@param string $simboloIngresado
+     *@return int
+     */	
+    function contarGanadosSimbolo($arregloJuegos, $simboloIngresado){
+        // int $i, $n, $cantGanadosSimbolo
+        $n = count($arregloJuegos);
+        $cantGanadosSimbolo = 0;
+        if ($simboloIngresado == "X") {
+            for ($i=0; $i < $n ; $i++){
+                if ($arregloJuegos[$i]["puntosCruz"] > $arregloJuegos[$i]["puntosCirculo"]){
+                    $cantGanadosSimbolo =  $cantGanadosSimbolo + 1;
+                }
+            }
+        }else{ 
+            for ($i=0; $i < $n ; $i++){
+                if ($arregloJuegos[$i]["puntosCruz"] < $arregloJuegos[$i]["puntosCirculo"]){
+                    $cantGanadosSimbolo =  $cantGanadosSimbolo + 1;
+                }
+            }
+        }
+        return $cantGanadosSimbolo; 
+    }
 
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
@@ -145,8 +202,9 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
 
 //Declaración de variables:
     /* array $datosJuegoNuevo , $juegosTotales */
-    /* int $numeroJuego, $juegoGanador1 */
-    /* string $nombreABuscar */
+    /* int $numeroJuego, $juegoGanador1, $totalGanados, $totalGanadosSimbolo */
+    /* float $porcentajeGanados */
+    /* string $nombreABuscar, $simboloValidado */
 //Inicialización de variables:
     $juegosTotales = cargarJuegos();
 
@@ -188,7 +246,11 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             break;
         case 4:
             //Mostrar porcentaje de juegos ganados
-            
+            $simboloValidado = validarSimbolo();
+            $totalGanados = contarJuegosGanados($juegosTotales);
+            $totalGanadosSimbolo = contarGanadosSimbolo($juegosTotales, $simboloValidado);
+            $porcentajeGanados = $totalGanadosSimbolo * 100 / $totalGanados;
+            echo $simboloValidado . "ganó el: " . $porcentajeGanados . " de los juegos ganados.";
             break;
     }
 } while ($opcion != 7);
