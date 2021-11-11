@@ -107,38 +107,34 @@ function agregarJuego ($coleccion, $juego, $nombreCruz, $nombreCirculo, $puntaje
  * Este módulo recibe como parámetros la colección de juegos y el nombre de un jugador, y retorna, 
  * si existe, su primer juego ganado.
  * @param string $nombreBuscado
- * @param array $coleccionBuscado
+ * @param array $coleccionBuscada
  * @return int
  */
-function primerGanado ($nombreBuscado, $coleccionBuscado) {
+function primerGanado ($nombreBuscado, $coleccionBuscada) {
     /* int $n, $i, $primerJuegoGanado */
     /* boolean $gano, $corte */
     
-    $n = count($coleccionBuscado);
+    $n = count($coleccionBuscada);
     $i = 0;
     $corte = true;
     $primerJuegoGanado = -1;
     while ($i < $n && $corte){
-        if ($coleccionBuscado[$i]["jugadorCruz"] == $nombreBuscado){
-            if ($coleccionBuscado[$i]["puntosCruz"] > $coleccionBuscado[$i]["puntosCirculo"]){
+        if ($coleccionBuscada[$i]["jugadorCruz"] == $nombreBuscado){
+            if ($coleccionBuscada[$i]["puntosCruz"] > $coleccionBuscada[$i]["puntosCirculo"]){
                 $primerJuegoGanado = $i;
                 $corte = false;
           
             }
             
-        }elseif ($coleccionBuscado[$i]["jugadorCirculo"] == $nombreBuscado){
-            if ($coleccionBuscado[$i]["puntosCirculo"] > $coleccionBuscado[$i]["puntosCruz"]){
+        }elseif ($coleccionBuscada[$i]["jugadorCirculo"] == $nombreBuscado){
+            if ($coleccionBuscada[$i]["puntosCirculo"] > $coleccionBuscada[$i]["puntosCruz"]){
                 $primerJuegoGanado = $i;
-                $corte = false;
-          
-            }
-            
+                $corte = false;          
+            }            
         }    
         $i = $i + 1;             
     }
-    return $primerJuegoGanado;    
-        
-            
+    return $primerJuegoGanado;                 
 }
     
 
@@ -149,7 +145,8 @@ function primerGanado ($nombreBuscado, $coleccionBuscado) {
 
 //Declaración de variables:
     /* array $datosJuegoNuevo , $juegosTotales */
-    /* int $numeroJuego */
+    /* int $numeroJuego, $juegoGanador1 */
+    /* string $nombreABuscar */
 //Inicialización de variables:
     $juegosTotales = cargarJuegos();
 
@@ -167,25 +164,31 @@ function primerGanado ($nombreBuscado, $coleccionBuscado) {
         case 1: 
             //Jugar al TATETI
             $datosJuegoNuevo = jugar();
-            imprimirResultado($datosJuego);
-            $juegosTotales = agregarJuego($juegosTotales,count($juegosTotales),$datosJuego["jugadorCruz"],$datosJuego["jugadorCirculo"],$datosJuego["puntosCruz"],$datosJuego["puntosCirculo"]);
+            imprimirResultado($datosJuegoNuevo);
+            $juegosTotales = agregarJuego($juegosTotales,count($juegosTotales),$datosJuegoNuevo["jugadorCruz"],$datosJuegoNuevo["jugadorCirculo"],$datosJuegoNuevo["puntosCruz"],$datosJuegoNuevo["puntosCirculo"]);
             
-            print_r($juegosTotales);
-            
-
+            print_r($juegosTotales);        
             break;
         case 2: 
             //Mostrar un juego
             echo "Ingrese un número de juego: ";       
             $numeroJuego = solicitarNumeroEntre(1,count($juegosTotales));            
             mostrarJuego($numeroJuego - 1);
-
             break;
         case 3: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
-
+            //Mostrar el primer juego ganador
+            echo "Ingrese su nombre para conocer su primer juego ganado: ";
+            $nombreABuscar = trim(fgets(STDIN));
+            $juegoGanador1 = primerGanado($nombreABuscar, $juegosTotales);
+            if ($juegoGanador1 <> -1){
+                mostrarJuego($juegoGanador1);
+            }else{
+                echo "El jugador " . $nombreABuscar . " no ganó ningún juego.";        
+            }
             break;
-        
-            //...
+        case 4:
+            //Mostrar porcentaje de juegos ganados
+            
+            break;
     }
 } while ($opcion != 7);
