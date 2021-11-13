@@ -30,16 +30,16 @@ Usuario GitHub: emilianoparrilla
 function cargarJuegos(){
     // array $coleccionJuegos
     $coleccionJuegos = [];
-    $coleccionJuegos[0] = ["jugadorCruz"=> "Arturo", "jugadorCirculo" => "Rodrigo", "puntosCruz"=> 4, "puntosCirculo" => 0];
-    $coleccionJuegos[1] = ["jugadorCruz"=> "Marcelo", "jugadorCirculo" => "Maria", "puntosCruz"=> 0, "puntosCirculo" => 3];
-    $coleccionJuegos[2] = ["jugadorCruz"=> "Roberto", "jugadorCirculo" => "Camila", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[3] = ["jugadorCruz" => "Rodrigo", "jugadorCirculo" => "Marcelo", "puntosCruz" => 2, "puntosCirculo" => 0];
-    $coleccionJuegos[4] = ["jugadorCruz" => "Camila", "jugadorCirculo" => "Arturo", "puntosCruz" => 0, "puntosCirculo" => 5];
-    $coleccionJuegos[5] = ["jugadorCruz"=> "Maria", "jugadorCirculo" => "Cecilia", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[6] = ["jugadorCruz"=> "Aldana", "jugadorCirculo" => " Daiana", "puntosCruz" => 0, "puntosCirculo" => 2];
-    $coleccionJuegos[7] = ["jugadorCruz" => "Cecilia", "jugadorCirculo" => "Aldana", "puntosCruz" => 4, "puntosCirculo" => 0];
-    $coleccionJuegos[8] = ["jugadorCruz"=> "Daiana", "jugadorCirculo" => "Marcelo", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[9] = ["jugadorCruz" => "Rodrigo", "jugadorCirculo" => "Arturo", "puntosCruz" => 0, "puntosCirculo" => 2];
+    $coleccionJuegos[0] = ["jugadorCruz"=> "ARTURO", "jugadorCirculo" => "RODRIGO", "puntosCruz"=> 4, "puntosCirculo" => 0];
+    $coleccionJuegos[1] = ["jugadorCruz"=> "MARCELO", "jugadorCirculo" => "MARIA", "puntosCruz"=> 0, "puntosCirculo" => 3];
+    $coleccionJuegos[2] = ["jugadorCruz"=> "ROBERTO", "jugadorCirculo" => "CAMILA", "puntosCruz"=> 1, "puntosCirculo" => 1];
+    $coleccionJuegos[3] = ["jugadorCruz" => "RODRIGO", "jugadorCirculo" => "MARCELO", "puntosCruz" => 2, "puntosCirculo" => 0];
+    $coleccionJuegos[4] = ["jugadorCruz" => "CAMILA", "jugadorCirculo" => "ARTURO", "puntosCruz" => 0, "puntosCirculo" => 5];
+    $coleccionJuegos[5] = ["jugadorCruz"=> "MARIA", "jugadorCirculo" => "CECILIA", "puntosCruz"=> 1, "puntosCirculo" => 1];
+    $coleccionJuegos[6] = ["jugadorCruz"=> "ALDANA", "jugadorCirculo" => "DAIANA", "puntosCruz" => 0, "puntosCirculo" => 2];
+    $coleccionJuegos[7] = ["jugadorCruz" => "CECILIA", "jugadorCirculo" => "ALDANA", "puntosCruz" => 4, "puntosCirculo" => 0];
+    $coleccionJuegos[8] = ["jugadorCruz"=> "DAIANA", "jugadorCirculo" => "MARCELO", "puntosCruz"=> 1, "puntosCirculo" => 1];
+    $coleccionJuegos[9] = ["jugadorCruz" => "RODRIGO", "jugadorCirculo" => "ARTURO", "puntosCruz" => 0, "puntosCirculo" => 2];
     return($coleccionJuegos);
 }
 
@@ -252,10 +252,10 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
 /**************************************/
 
 //Declaración de variables:
-    /* array $datosJuegoNuevo , $juegosTotales */
+    /* array $datosJuegoNuevo , $juegosTotales, $resumenJuego */
     /* int $numeroJuego, $juegoGanador1, $totalGanados, $totalGanadosSimbolo */
     /* float $porcentajeGanados */
-    /* string $nombreABuscar, $simboloValidado */
+    /* string $nombreABuscar, $simboloValidado, $nombreResumen */
 //Inicialización de variables:
     $juegosTotales = cargarJuegos();
 
@@ -287,7 +287,7 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
         case 3: 
             //Mostrar el primer juego ganador
             echo "Ingrese su nombre para conocer su primer juego ganado: ";
-            $nombreABuscar = trim(fgets(STDIN));
+            $nombreABuscar = strtoupper(trim(fgets(STDIN)));
             $juegoGanador1 = primerGanado($nombreABuscar, $juegosTotales);
             if ($juegoGanador1 <> -1){
                 mostrarJuego($juegoGanador1);
@@ -304,10 +304,17 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             echo $simboloValidado . "ganó el: " . $porcentajeGanados . " de los juegos ganados.";
             break;
         case 5:
-            //Hacer llamado a función Mostrar Resumen
-            //Asignar a una variable el array de retorno
-            //Mostrar en pantalla el resumen del jugador, concatenando los valores del array de retorno
-            
+            //Mostrar Resumen
+            echo "Ingrese nombre de jugador para ver su resumen de juego : ";
+            $nombreResumen = strtoupper(trim(fgets(STDIN)));
+            $resumenJuego = mostrarResumen($juegosTotales,$nombreResumen);
+            echo "************************************************";
+            echo "Jugador : " . $resumenJuego["nombre"] . "\n";
+            echo "Ganó : " . $resumenJuego["ganados"] . "\n";
+            echo "Perdió : " . $resumenJuego["perdidos"] . "\n";
+            echo "Empató : " . $resumenJuego["empatados"] . "\n";
+            echo "Total de puntos acumulados : " . $resumenJuego["puntajeTotal"] . " puntos" . "\n";
+            echo "*************************************************";
             break;    
     }
 } while ($opcion != 7);
