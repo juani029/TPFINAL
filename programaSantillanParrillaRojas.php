@@ -196,6 +196,57 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
         return $cantGanadosSimbolo; 
     }
 
+    /**
+     * Este módulo recibe una colección de juegos y un nombre de un jugador, y retorna un array con el resumen del jugador.
+     * @param array $arregloJuegosTotales
+     * @param string $nombreJugador
+     * @return array
+     */
+    
+    function mostrarResumen ($arregloJuegosTotales, $nombreJugador){
+        //array $resumenJugador
+        //int $i, $juegosGanados, $juegosPerdidos, $juegosEmpatados, $puntosAcumulados
+        $resumenJugador = [];
+        $juegosGanados = 0;
+        $juegosPerdidos = 0;
+        $juegosEmpatados = 0;
+        $puntosAcumulados = 0;
+
+        for ($i=0; $i < count ($arregloJuegosTotales); $i++) { 
+            if ($arregloJuegosTotales[$i]["jugadorCruz"] == $nombreJugador){
+                if ($arregloJuegosTotales[$i]["puntosCruz"] > $arregloJuegosTotales[$i]["puntosCirculo"]){
+                    $juegosGanados = $juegosGanados + 1;
+                    $puntosAcumulados = $puntosAcumulados + $arregloJuegosTotales[$i]["puntosCruz"];                    
+                }else if ($arregloJuegosTotales[$i]["puntosCruz"] < $arregloJuegosTotales[$i]["puntosCirculo"]){
+                    $juegosPerdidos = $juegosPerdidos + 1;
+                }else{
+                    $juegosEmpatados = $juegosEmpatados + 1;
+                    $puntosAcumulados = $puntosAcumulados + 1;
+                }
+            }else if($arregloJuegosTotales[$i]["jugadorCirculo"] == $nombreJugador){
+                if ($arregloJuegosTotales[$i]["puntosCruz"] < $arregloJuegosTotales[$i]["puntosCirculo"]){
+                    $juegosGanados = $juegosGanados + 1;
+                    $puntosAcumulados = $puntosAcumulados + $arregloJuegosTotales[$i]["puntosCruz"];                    
+                }else if ($arregloJuegosTotales[$i]["puntosCruz"] > $arregloJuegosTotales[$i]["puntosCirculo"]){
+                    $juegosPerdidos = $juegosPerdidos + 1;
+                }else{
+                    $juegosEmpatados = $juegosEmpatados + 1;
+                    $puntosAcumulados = $puntosAcumulados + 1;
+                }
+            }            
+        }        
+        $resumenJugador["nombre"] = $nombreJugador;
+        $resumenJugador["ganados"] = $juegosGanados;
+        $resumenJugador["perdidos"] = $juegosPerdidos;
+        $resumenJugador["empatados"] = $juegosEmpatados;
+        $resumenJugador["puntajeTotal"] = $puntosAcumulados;
+        return $resumenJugador;
+    }    
+
+
+
+
+
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
 /**************************************/
@@ -252,5 +303,11 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             $porcentajeGanados = $totalGanadosSimbolo * 100 / $totalGanados;
             echo $simboloValidado . "ganó el: " . $porcentajeGanados . " de los juegos ganados.";
             break;
+        case 5:
+            //Hacer llamado a función Mostrar Resumen
+            //Asignar a una variable el array de retorno
+            //Mostrar en pantalla el resumen del jugador, concatenando los valores del array de retorno
+            
+            break;    
     }
 } while ($opcion != 7);
