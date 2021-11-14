@@ -54,7 +54,7 @@ function seleccionarOpcion(){
         echo "Menú de opciones: \n";
 		echo "   1)   Jugar al tateti \n";
 		echo "   2)   Mostrar un juego \n";
-		echo "   3)   Mostrar el primero juego ganador \n";
+		echo "   3)   Mostrar el primer juego ganador \n";
 		echo "   4)   Mostrar porcentaje de Juegos ganados \n";
 		echo "   5)   Mostrar resumen de Jugador \n";
 		echo "   6)   Mostrar listado de juegos Ordenado por jugador O \n";
@@ -69,11 +69,11 @@ function seleccionarOpcion(){
  * Función 4
  * Este módulo recibe un número de juego como parámetro e imprime en pantalla los datos del mismo. 
  * @param int $nroJuego
+ * @param array $juegosCargados
  */
-function mostrarJuego ($nroJuego){
+function mostrarJuego ($nroJuego, $juegosCargados){// Consultar Catedra
     /* string $resultado */
-    /* array $juegosCargados */
-    $juegosCargados = cargarJuegos();// REVISAR porque solamente le va a dar la $coleccionJuegoJugados
+    /* int $auxNroJuego */
     if ($juegosCargados[$nroJuego]["puntosCruz"] > $juegosCargados[$nroJuego]["puntosCirculo"]){
         $resultado = "ganó X";
     }else if ($juegosCargados[$nroJuego]["puntosCruz"] < $juegosCargados[$nroJuego]["puntosCirculo"]){
@@ -81,10 +81,11 @@ function mostrarJuego ($nroJuego){
     }else{
         $resultado = "empate";
     }
+    $auxNroJuego  = $nroJuego + 1;
     echo "******************************************\n";
-    echo "Juego TATETI: ". $nroJuego + 1 . "(" . $resultado . ") \n";
-    echo "Jugador X: " . $juegosCargados[$nroJuego]["jugadorCruz"]. "obtuvo " . $juegosCargados[$nroJuego]["puntosCruz"] . " puntos \n";
-    echo "Jugador O: " . $juegosCargados[$nroJuego]["jugadorCirculo"]. "obtuvo " . $juegosCargados[$nroJuego]["puntosCirculo"] . " puntos \n";
+    echo "Juego TATETI: ". $auxNroJuego . "(" . $resultado . ") \n";
+    echo "Jugador X: " . $juegosCargados[$nroJuego]["jugadorCruz"]. " obtuvo " . $juegosCargados[$nroJuego]["puntosCruz"] . " puntos \n";
+    echo "Jugador O: " . $juegosCargados[$nroJuego]["jugadorCirculo"]. " obtuvo " . $juegosCargados[$nroJuego]["puntosCirculo"] . " puntos \n";
     echo "******************************************\n";
 }
 
@@ -147,7 +148,7 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
         do {
             echo "Ingrese un símbolo (X o O):";
             $simbolo = strtoupper(trim(fgets(STDIN)));
-        } while ($simbolo <> "X" || $simbolo <> "O");
+        } while ($simbolo <> "X" && $simbolo <> "O");
 	    return $simbolo;
     }
 	
@@ -275,14 +276,13 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             $datosJuegoNuevo = jugar();
             imprimirResultado($datosJuegoNuevo);
             $juegosTotales = agregarJuego($juegosTotales,count($juegosTotales),$datosJuegoNuevo["jugadorCruz"],$datosJuegoNuevo["jugadorCirculo"],$datosJuegoNuevo["puntosCruz"],$datosJuegoNuevo["puntosCirculo"]);
-            
             print_r($juegosTotales);        
             break;
         case 2: 
             //Mostrar un juego
             echo "Ingrese un número de juego: ";       
             $numeroJuego = solicitarNumeroEntre(1,count($juegosTotales));            
-            mostrarJuego($numeroJuego - 1);
+            mostrarJuego($numeroJuego - 1, $juegosTotales);
             break;
         case 3: 
             //Mostrar el primer juego ganador
@@ -290,7 +290,7 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             $nombreABuscar = strtoupper(trim(fgets(STDIN)));
             $juegoGanador1 = primerGanado($nombreABuscar, $juegosTotales);
             if ($juegoGanador1 <> -1){
-                mostrarJuego($juegoGanador1);
+                mostrarJuego($juegoGanador1, $juegosTotales);
             }else{
                 echo "El jugador " . $nombreABuscar . " no ganó ningún juego.\n";        
             }
@@ -301,7 +301,7 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             $totalGanados = contarJuegosGanados($juegosTotales);
             $totalGanadosSimbolo = contarGanadosSimbolo($juegosTotales, $simboloValidado);
             $porcentajeGanados = $totalGanadosSimbolo * 100 / $totalGanados;
-            echo $simboloValidado . "ganó el: " . $porcentajeGanados . " de los juegos ganados.\n";
+            echo $simboloValidado . " ganó el: " . $porcentajeGanados . " % de los juegos ganados.\n";
             break;
         case 5:
             //Mostrar Resumen
@@ -318,3 +318,4 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             break;    
     }
 } while ($opcion != 7);
+
