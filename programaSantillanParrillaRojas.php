@@ -315,7 +315,8 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             echo "Empató : " . $resumenJuego["empatados"] . "\n";
             echo "Total de puntos acumulados : " . $resumenJuego["puntajeTotal"] . " puntos" . "\n";
             echo "*************************************************\n";
-            break;    
+            break;
+        //Consultar por el uasort y funciones de comparación.
     }
 } while ($opcion != 7);
 
