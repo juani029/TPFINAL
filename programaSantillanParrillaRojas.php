@@ -243,7 +243,17 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
         $resumenJugador["puntajeTotal"] = $puntosAcumulados;
         return $resumenJugador;
     }    
-
+    /**
+    * Este módulo compara dos string y retorna un entero.
+    * @param string $a
+    * @param string $b
+    * @return int
+    */
+    function cmp($a, $b){
+        if ($a["jugadorCirculo"] == $b["jugadorCirculo"]) {
+            return 0;
+     }return ($a["jugadorCirculo"] < $b["jugadorCirculo"]) ? -1 : 1;
+    }
 
 
 
@@ -275,8 +285,7 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             //Jugar al TATETI
             $datosJuegoNuevo = jugar();
             imprimirResultado($datosJuegoNuevo);
-            $juegosTotales = agregarJuego($juegosTotales,count($juegosTotales),$datosJuegoNuevo["jugadorCruz"],$datosJuegoNuevo["jugadorCirculo"],$datosJuegoNuevo["puntosCruz"],$datosJuegoNuevo["puntosCirculo"]);
-            print_r($juegosTotales);        
+            $juegosTotales = agregarJuego($juegosTotales,count($juegosTotales),$datosJuegoNuevo["jugadorCruz"],$datosJuegoNuevo["jugadorCirculo"],$datosJuegoNuevo["puntosCruz"],$datosJuegoNuevo["puntosCirculo"]);        
             break;
         case 2: 
             //Mostrar un juego
@@ -316,7 +325,12 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             echo "Total de puntos acumulados : " . $resumenJuego["puntajeTotal"] . " puntos" . "\n";
             echo "*************************************************\n";
             break;
-        //Consultar por el uasort y funciones de comparación.
+        //Consultar por el uasort, funciones de comparación, representacion de estructuras, si el echo print esta bien hecho
+        case 6:
+            //Mostrar listado de juegos Ordenado por jugador O
+            uasort($juegosTotales, 'cmp'); // Esta función ordena un array con una función de comparacion definida por el usuario y mantiene la asociación de índices.
+            print_r($juegosTotales) . "\n"; // Esta función muestra en pantalla un array
+            break;
     }
 } while ($opcion != 7);
 
