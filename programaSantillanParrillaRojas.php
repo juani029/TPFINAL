@@ -45,7 +45,7 @@ function cargarJuegos(){
 
 /**
  * Función 2
- *Este módulo muestra en pantalla el menú de opciones. solicita al usuario que elija una opción. si es válida retorna la opción y sino repite hasta que la opción válida
+ *Este módulo muestra en pantalla el menú de opciones, solicita al usuario que elija una opción, si es válida retorna la opción y sino repite hasta que la opción válida
  *@return int	
  */
 function seleccionarOpcion(){
@@ -57,10 +57,13 @@ function seleccionarOpcion(){
 		echo "   3)   Mostrar el primer juego ganador \n";
 		echo "   4)   Mostrar porcentaje de Juegos ganados \n";
 		echo "   5)   Mostrar resumen de Jugador \n";
-		echo "   6)   Mostrar listado de juegos Ordenado por jugador O \n";
+		echo "   6)   Mostrar listado de juegos Ordenado por jugador O (circulo) \n";
 		echo "   7)   Salir \n";
 		echo "Elija una opción del menú: ";
 		$opValida = trim(fgets(STDIN));
+        if($opValida < 1 || $opValida > 7){
+            echo "La opcion elegida no es válida, por favor ingrese un número entre el 1 y el 7. \n";
+        }
 } while ($opValida < 1 || $opValida > 7);
 	return($opValida);
 }
@@ -254,7 +257,28 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             return 0;
      }return ($a["jugadorCirculo"] < $b["jugadorCirculo"]) ? -1 : 1;
     }
-
+    /**
+     * Este módulo recibe un nombre, recorre una colección y valida si existe dentro la misma
+     * @param string $nombre
+     * @param array $coleccion
+     * @return int
+     */
+    function existeJugador($nombre, $coleccion){
+        // boolean $corte
+        // int $n, $i, $existe
+        $i = 0;
+        $n = count($coleccion);
+        $corte = true;
+        $existe = 0;
+        while ($i < $n && $corte) {
+            if($nombre == $coleccion[$i]["jugadorCruz"] || $nombre == $coleccion[$i]["jugadorCirculo"]){
+                $corte = false;
+                $existe = -1;
+            }
+            $i = $i + 1;
+        }
+        return $existe;
+    }
 
 
 
@@ -264,7 +288,7 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
 
 //Declaración de variables:
     /* array $datosJuegoNuevo , $juegosTotales, $resumenJuego */
-    /* int $numeroJuego, $juegoGanador1, $totalGanados, $totalGanadosSimbolo */
+    /* int $numeroJuego, $juegoGanador1, $totalGanados, $totalGanadosSimbolo, $validacion */
     /* float $porcentajeGanados */
     /* string $nombreABuscar, $simboloValidado, $nombreResumen */
 //Inicialización de variables:
@@ -279,7 +303,6 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
  do {
     $opcion = seleccionarOpcion();
 
-    
     switch ($opcion) { //Corresponde a una estructura de control Alternativa.
         case 1: 
             //Jugar al TATETI
@@ -295,14 +318,22 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             break;
         case 3: 
             //Mostrar el primer juego ganador
-            echo "Ingrese su nombre para conocer su primer juego ganado: ";
-            $nombreABuscar = strtoupper(trim(fgets(STDIN)));
-            $juegoGanador1 = primerGanado($nombreABuscar, $juegosTotales);
-            if ($juegoGanador1 <> -1){
-                mostrarJuego($juegoGanador1, $juegosTotales);
-            }else{
-                echo "El jugador " . $nombreABuscar . " no ganó ningún juego.\n";        
-            }
+            do {
+                echo "Ingrese su nombre para conocer su primer juego ganado: ";
+                $nombreABuscar = strtoupper(trim(fgets(STDIN)));
+                $validacion = existeJugador($nombreABuscar, $juegosTotales);
+                if ($validacion == -1){
+                    $juegoGanador1 = primerGanado($nombreABuscar, $juegosTotales);
+                    if ($juegoGanador1 <> -1){
+                        mostrarJuego($juegoGanador1, $juegosTotales);
+                    }else{
+                        echo "El jugador " . $nombreABuscar . " no ganó ningún juego.\n";        
+                    }
+                }else {
+                    echo "El jugador no existe, por favor ingrese otro \n";
+                }
+            } while ($validacion <> -1);
+            
             break;
         case 4:
             //Mostrar porcentaje de juegos ganados
@@ -314,16 +345,24 @@ function primerGanado ($nombreBuscado, $coleccionBuscada) {
             break;
         case 5:
             //Mostrar Resumen
-            echo "Ingrese nombre de jugador para ver su resumen de juego: ";
+            do {
+                echo "Ingrese nombre de jugador para ver su resumen de juego: ";
             $nombreResumen = strtoupper(trim(fgets(STDIN)));
-            $resumenJuego = mostrarResumen($juegosTotales,$nombreResumen);
-            echo "************************************************\n";
-            echo "Jugador : " . $resumenJuego["nombre"] . "\n";
-            echo "Ganó : " . $resumenJuego["ganados"] . "\n";
-            echo "Perdió : " . $resumenJuego["perdidos"] . "\n";
-            echo "Empató : " . $resumenJuego["empatados"] . "\n";
-            echo "Total de puntos acumulados : " . $resumenJuego["puntajeTotal"] . " puntos" . "\n";
-            echo "*************************************************\n";
+            $validacion = existeJugador($nombreResumen, $juegosTotales);
+            if ($validacion == -1){
+                $resumenJuego = mostrarResumen($juegosTotales,$nombreResumen);
+                echo "************************************************\n";
+                echo "Jugador : " . $resumenJuego["nombre"] . "\n";
+                echo "Ganó : " . $resumenJuego["ganados"] . "\n";
+                echo "Perdió : " . $resumenJuego["perdidos"] . "\n";
+                echo "Empató : " . $resumenJuego["empatados"] . "\n";
+                echo "Total de puntos acumulados : " . $resumenJuego["puntajeTotal"] . " puntos" . "\n";
+                echo "*************************************************\n";
+            }else {
+                echo "El jugador no existe, por favor ingrese otro. \n";
+            }
+            } while ($validacion <> -1);
+            
             break;
         //Consultar por el uasort, funciones de comparación, representacion de estructuras, si el echo print esta bien hecho
         case 6:
