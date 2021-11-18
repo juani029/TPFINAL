@@ -74,7 +74,7 @@ function seleccionarOpcion(){
 * @param int $nroJuego
 * @param array $coleccion
 */
-function mostrarJuego ($nroJuego, $coleccion){// Consultar Catedra
+function mostrarJuego ($nroJuego, $coleccion){
     /* string $resultado */
     /* int $auxNroJuego */
     if ($coleccion[$nroJuego]["puntosCruz"] > $coleccion[$nroJuego]["puntosCirculo"]){
@@ -207,7 +207,7 @@ function contarGanadosSimbolo($coleccion, $simboloIngresado){
 * @param string $nombreJugador
 * @return array
 */    
-function mostrarResumen ($coleccion, $nombreJugador){
+function cargarResumen ($coleccion, $nombreJugador){
     //array $resumenJugador
     //int $i, $juegosGanados, $juegosPerdidos, $juegosEmpatados, $puntosAcumulados
     $resumenJugador = [];
@@ -291,13 +291,13 @@ function existeJugador($nombre, $coleccion){
 
 
 //Declaración de variables:
-    /* array $datosJuegoNuevo , $juegosTotales, $resumenJuego */
-    /* int $numeroJuego, $juegoGanador1, $totalGanados, $totalGanadosSimbolo, $validacion */
+    /* array $datosJuegoNuevo, $juegosTotales, $resumenJuego */
+    /* int $opcion, $numeroJuego, $juegoGanador1, $totalGanados, $totalGanadosSimbolo, $validacion */
     /* float $porcentajeGanados */
     /* string $nombreABuscar, $simboloValidado, $nombreResumen */
 //Inicialización de variables:
     $juegosTotales = cargarJuegos();
-
+    //Consultar si hace falta inicializarlas, o se inicializan en el transcurso del código.
 
 //Proceso:
 
@@ -307,26 +307,26 @@ do {
     switch ($opcion) { //Corresponde a una estructura de control Alternativa.
         case 1: 
             //Jugar al TATETI
-            $datosJuegoNuevo = jugar();
-            imprimirResultado($datosJuegoNuevo);
+            $datosJuegoNuevo = jugar(); // Se invoca a la función jugar del archivo tateti.
+            imprimirResultado($datosJuegoNuevo); //Se reusa la función del archivo tateti.
             $juegosTotales = agregarJuego($juegosTotales,count($juegosTotales),$datosJuegoNuevo["jugadorCruz"],$datosJuegoNuevo["jugadorCirculo"],$datosJuegoNuevo["puntosCruz"],$datosJuegoNuevo["puntosCirculo"]);        
             break;
         case 2: 
             //Mostrar un juego
             echo "Ingrese un número de juego: ";       
-            $numeroJuego = solicitarNumeroEntre(1,count($juegosTotales));            
-            mostrarJuego($numeroJuego - 1, $juegosTotales);
+            $numeroJuego = solicitarNumeroEntre(1,count($juegosTotales)); //Se reusa la función del archivo tateti.           
+            mostrarJuego($numeroJuego - 1, $juegosTotales); // Se le resta 1 a numeroJuego para coincidir con índice de coleccion.
             break;
         case 3: 
             //Mostrar el primer juego ganador
             do {
                 echo "Ingrese su nombre para conocer su primer juego ganado: ";
-                $nombreABuscar = strtoupper(trim(fgets(STDIN)));
+                $nombreABuscar = strtoupper(trim(fgets(STDIN))); //Función string predefinida que transforma a mayúscula.
                 $validacion = existeJugador($nombreABuscar, $juegosTotales);
                 if ($validacion == -1){
                     $juegoGanador1 = primerGanado($nombreABuscar, $juegosTotales);
                     if ($juegoGanador1 <> -1){
-                        mostrarJuego($juegoGanador1, $juegosTotales);
+                        mostrarJuego($juegoGanador1, $juegosTotales); //Se reutiliza función.
                     }else{
                         echo "El jugador " . $nombreABuscar . " no ganó ningún juego.\n";        
                     }
@@ -338,8 +338,8 @@ do {
         case 4:
             //Mostrar porcentaje de juegos ganados
             $simboloValidado = validarSimbolo();
-            $totalGanados = contarJuegosGanados($juegosTotales);
-            $totalGanadosSimbolo = contarGanadosSimbolo($juegosTotales, $simboloValidado);
+            $totalGanados = contarJuegosGanados($juegosTotales); //Realiza un recorrido exhaustivo usando instrucción for.
+            $totalGanadosSimbolo = contarGanadosSimbolo($juegosTotales, $simboloValidado); //Recorrido exhaustivo con contador.
             $porcentajeGanados = $totalGanadosSimbolo * 100 / $totalGanados;
             echo $simboloValidado . " ganó el: " . $porcentajeGanados . " % de los juegos ganados.\n";
             break;
@@ -347,30 +347,29 @@ do {
             //Mostrar Resumen
             do {
                 echo "Ingrese nombre de jugador para ver su resumen de juego: ";
-            $nombreResumen = strtoupper(trim(fgets(STDIN)));
-            $validacion = existeJugador($nombreResumen, $juegosTotales);
-            if ($validacion == -1){
-                $resumenJuego = mostrarResumen($juegosTotales,$nombreResumen);
-                echo "************************************************\n";
-                echo "Jugador : " . $resumenJuego["nombre"] . "\n";
-                echo "Ganó : " . $resumenJuego["ganados"] . "\n";
-                echo "Perdió : " . $resumenJuego["perdidos"] . "\n";
-                echo "Empató : " . $resumenJuego["empatados"] . "\n";
-                echo "Total de puntos acumulados : " . $resumenJuego["puntajeTotal"] . " puntos" . "\n";
-                echo "*************************************************\n";
-            }else {
-                echo "El jugador no existe, por favor ingrese otro. \n";
-            }
+                $nombreResumen = strtoupper(trim(fgets(STDIN)));
+                $validacion = existeJugador($nombreResumen, $juegosTotales); //Reusa función.
+                if ($validacion == -1){
+                    $resumenJuego = cargarResumen($juegosTotales,$nombreResumen);
+                    echo "************************************************\n";
+                    echo "Jugador : " . $resumenJuego["nombre"] . "\n";
+                    echo "Ganó : " . $resumenJuego["ganados"] . "\n";
+                    echo "Perdió : " . $resumenJuego["perdidos"] . "\n";
+                    echo "Empató : " . $resumenJuego["empatados"] . "\n";
+                    echo "Total de puntos acumulados : " . $resumenJuego["puntajeTotal"] . " puntos" . "\n";
+                    echo "*************************************************\n";
+                }else {
+                    echo "El jugador no existe, por favor ingrese otro. \n";
+                }
             } while ($validacion <> -1);
-            break;
-        //Consultar por el uasort, funciones de comparación, representacion de estructuras, si el echo print esta bien hecho
+            break;        
         case 6:
             //Mostrar listado de juegos Ordenado por jugador O
-            uasort($juegosTotales, 'cmp'); // Esta función ordena un array con una función de comparacion definida por el usuario y mantiene la asociación de índices.
-            print_r($juegosTotales) . "\n"; // Esta función muestra en pantalla un array
+            uasort($juegosTotales, 'cmp'); // Función predefinida: ordena un array con una función de comparacion definida por el usuario y mantiene la asociación de índices.
+            print_r($juegosTotales) . "\n"; // Función predefinida: muestra en pantalla un array
             break;
         case 7:
-            //Cartel de agradecimiento
+            //Salir del juego.
             echo "Gracias por Jugar al TATETI de la TUDW. Atte: Emi, Juani y Agus.";
             break;
     }
