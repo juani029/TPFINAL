@@ -15,4 +15,4 @@ Universidad del Comahue
 
 - **Emiliano Dario Parrilla** - legajo 3024 - mail: emiliano.parrilla@est.fi.uncoma.edu.ar - usuario github: emilianoparrilla
 
--**Juan Ignacio Santillan** - legajo 2691 - mail: juan.santillan@est.fi.uncoma.edu.ar - usuario github: juani029
+- **Juan Ignacio Santillan** - legajo 2691 - mail: juan.santillan@est.fi.uncoma.edu.ar - usuario github: juani029
